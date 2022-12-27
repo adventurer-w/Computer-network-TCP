@@ -22,6 +22,7 @@ public class TCP_Sender extends TCP_Sender_ADT {
     @Override
     //可靠发送（应用层调用）：封装应用层数据，产生TCP数据报；需要修改
     public void rdt_send(int dataIndex, int[] appData) {
+
         //生成TCP数据报（设置序号和数据字段/校验和),注意打包的顺序
         tcpH.setTh_seq(dataIndex * appData.length + 1);//字节流号：
         tcpS.setData(appData);
@@ -34,12 +35,16 @@ public class TCP_Sender extends TCP_Sender_ADT {
             System.out.println("\nSliding Window is full\n");
             flag = 0;
         }
+
         while (flag==0);// 滑动窗口已满，等待ACK报文
+
         try {
-            senderWindow.addPacket(tcpPack.clone());// 加入包到窗口
+            // 加入包到窗口
+            senderWindow.addPacket(tcpPack.clone());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
         udt_send(tcpPack); // 发送 TCP 数据报
     }
 

@@ -51,12 +51,11 @@ public class TCP_Receiver extends TCP_Receiver_ADT {
                 if (!packets.containsKey(nowNumber) && nowNumber > nextNumber)
                     packets.put(nowNumber, recvPack);// 需要被加入接收方窗口
             }
-
-            tcpH.setTh_ack((nextNumber - 1) * 100 + 1);//生成ACK报文段
-            ackPack = new TCP_PACKET(tcpH, tcpS, recvPack.getSourceAddr());
-            tcpH.setTh_sum(CheckSum.computeChkSum(ackPack));
-            reply(ackPack);
         }
+        tcpH.setTh_ack((nextNumber - 1) * 100 + 1);//生成ACK报文段
+        ackPack = new TCP_PACKET(tcpH, tcpS, recvPack.getSourceAddr());
+        tcpH.setTh_sum(CheckSum.computeChkSum(ackPack));
+        reply(ackPack);
     }
 
     @Override
